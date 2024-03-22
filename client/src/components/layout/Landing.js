@@ -14,7 +14,7 @@ class Landing extends Component {
           <div className="col s12 center-align">
             <h4>
               <b>Proctor </b>your online exams with{" "}
-              <span style={{ fontFamily: "monospace" }}>Procto</span> and ensure cheating free exams!
+              <span style={{ fontFamily: "monospace" }}>IntelliShare</span> and ensure cheating free exams!
             </h4>
             <p className="flow-text grey-text text-darken-1">
               Create an exam, share unique code with students and monitor cheating attempts in real time from the dashboard. Its 
@@ -42,7 +42,7 @@ class Landing extends Component {
                   borderRadius: "3px",
                   letterSpacing: "1.5px"
                 }}
-                className="btn btn-large btn-flat waves-effect white black-text"
+                className="btn btn-large waves-effect waves-light hoverable blue accent-3"
               >
                 Log In
               </Link>
