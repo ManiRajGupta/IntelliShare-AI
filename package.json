@@ -37,6 +37,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "nodemon": "^2.0.15"
   }
 }
