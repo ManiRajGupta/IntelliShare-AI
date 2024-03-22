@@ -1,8 +1,8 @@
-# Procto- An Automatic Exam Proctoring tool for Online Exams
+# IntelliShare-AI- An Automatic Exam Proctoring tool for Online Exams
 
-# About Procto
-**Procto** is an online proctoring tool that Professors can use to create exams that are Proctored using AI. They can also view the status of each student taking the exam in Real-Time. **It is fast, easy to use, and incredibly convenient with a minimalistic UI!**
-To create an exam, just register and log in to your account, click on the Create Exam button and enter details like Exam Name, Google Form Link, Start Date and Time and duration. Procto generates a unique exam code that you can distribute among the students. The students start the exam by logging in and entering the exam code while the exam is running. While they are taking the exam they are **proctored using an AI-based system**. By entering the exam code, the professor can see the status of all the students in **real-time**.
+# About Intellishare
+**IntelliShare-AI** is an online proctoring tool that Professors can use to create exams that are Proctored using AI. They can also view the status of each student taking the exam in Real-Time. **It is fast, easy to use, and incredibly convenient with a minimalistic UI!**
+To create an exam, just register and log in to your account, click on the Create Exam button and enter details like Exam Name, Google Form Link, Start Date and Time and duration. IntelliShare generates a unique exam code that you can distribute among the students. The students start the exam by logging in and entering the exam code while the exam is running. While they are taking the exam they are **proctored using an AI-based system**. By entering the exam code, the professor can see the status of all the students in **real-time**.
 
 # Tech Stack
 **Frontend-** React.js, Redux, Material-UI, Materialise.css
@@ -10,27 +10,12 @@ To create an exam, just register and log in to your account, click on the Create
 **Database-** MongoDB Atlas, Mongoose
 **Deep Learning Model-** Tensorflow Implementation of CocoSSD Object Detection Model
 
-# Video Demo
-[![Video Link](https://i9.ytimg.com/vi/8b6_rfUunG4/mq2.jpg?sqp=CJiYjY0G&rs=AOn4CLB0Y_JLes_6GY3X1obVKle_GKbfww)](https://www.youtube.com/watch?v=8b6_rfUunG4&ab)
-
-# Hosted Application URL
-https://online-exam-proctoring.herokuapp.com/
-
-# About The Author
-Hello! I am Rohit Tuli, **Final Year BTech CSE student at IIT Ropar**. I am very passionate about software development and problem-solving. Previously I have interned at **Flipkart** and **National University of Singapore**. Currently, I am working on a **year-long Research Project in collaboration with Microsoft India.** 
-I was also a **National Finalist (Top 3) in Flipkart Grid Challenge 2.0**, and **2nd Position in Global Cyber Challenge**, an international hackathon conducted by Government of India. 
-I love problem-solving and actively participate in many Competitive Programming Contests. I have also represented my college in ACM ICPC Regionals.
-
 # How to Use?
-
-## Note
-**The website is hosted on [This Link](https://online-exam-proctoring.herokuapp.com/).**
-**I recommend running on this URL instead of running on your machine**
 
 If you wish to run it on your machine, 
 1. Clone the Repository
 2. Move to the Microsoft-Engage-Project folder
-`cd Microsoft-Engage-Project`
+`cd Intellishare-AI`
 3. Run `npm install`
 4. Move to client directory and run npm install again. `cd client` and `npm install`
 5. Move back to parent directory `cd ..`
