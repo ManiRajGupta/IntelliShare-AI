@@ -51,8 +51,9 @@ This concurrently runs server and frontend. Give a few seconds for frontend to l
 6. Prohibited Key Press Detection: The tool counts the number of times the student tries to press a prohibited key (Ctrl, Alt). This is to discourage copy-paste and sharing exam questions with others or using other shortcuts.
 7. Right-Click Prevention: Right-clicking when the exam is going on is not possible.
 8. Exam Restart: If due to network or any other issue the exam gets interrupted, it is possible to restart the exam within the running time (between start and end of the exam), but the time lost is not recovered. 
-
-Note- Since in the current iteration of the project I am using google form link from professor instead of making questions in the application itself, it is impossible to put key listeners and right click prevention in it since its a third party app and React prevents it due to security reasons.
+9. Voice Detection:  The system identified instances of unusual vocal activity and issued timely warnings to students. Additionally, professors were notified of such events, allowing them to take further action if necessary. This feature provides a valuable layer of security by deterring students from seeking external help during exams.
+    
+Note- Since in the current iteration of the project we are using google form link from professor instead of making questions in the application itself, it is impossible to put key listeners and right click prevention in it since its a third party app and React prevents it due to security reasons.
 To test these features, please do ctrl press, alt press and right click on left side of screen only.
 
 ## Professor Side Features:
