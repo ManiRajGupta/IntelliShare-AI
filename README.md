@@ -59,6 +59,8 @@ To test these features, please do ctrl press, alt press and right click on left 
 ## Professor Side Features:
 1. Simple to use exam creation dialog box which automatically copies generated exam code to Clipboard.
 2. Dynamic Student Logs Table with sort by name, email, etc functionality, Pagination, no of entries per page selector and buttons for going to next and previous pages.
-3. Advanced Search functionality for logs table. Can search by a part of name, email etc with search results getting updated as you type. It also allows you to sort in ascending or descending order based on each column by clicking on column header. 
+3. Advanced Search functionality for logs table. Can search by a part of name, email etc with search results getting updated as you type. It also allows you to sort in ascending or descending order based on each column by clicking on column header.
+4. UFM Score Display: Professors could view the UFM Score (Unfair Means Score) for each student, indicating the extent to which the student has cheated in the examination.
+
 
  
