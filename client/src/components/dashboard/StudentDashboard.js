@@ -21,7 +21,6 @@ function StudentDashboard(props) {
      * If running it allows student to enter, else displays error
      */
     function checkExamCode(){
-
         // send exam code to server
         axios.get('/api/exams/examByCode?exam_code='+exam_code)
         .then(function (response) {
@@ -72,7 +71,7 @@ function StudentDashboard(props) {
           .catch(function (error) {
             // if exam code is invalid show error
             console.log(error);
-            setError("Exam code is invalid");
+            setError("Exam code is invalid!");
           });
     }
 

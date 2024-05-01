@@ -27,25 +27,30 @@ const LogsSchema = new Schema({
       default:0,
     },
     mobile_found: {
-      type:Boolean,
+      type:Number,
       required:true,
       default:false,
     },
     prohibited_object_found: {
-      type:Boolean,
+      type:Number,
       required:false,
       default:false,
     },
     face_not_visible: {
-      type: Boolean,
+      type: Number,
       required: true,
       default:false,
     },
     multiple_faces_found: {
-      type: Boolean,
+      type: Number,
       required: true,
       default:false,
-    }
+    },
+    audio_detected: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     
   });
 // export the model

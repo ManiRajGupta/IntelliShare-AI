@@ -13,6 +13,7 @@ export default class Detection extends React.Component {
   // Create video and canvas reference
   videoRef = React.createRef();
   canvasRef = React.createRef();
+  audioContext = new (window.AudioContext)();
 
   constructor(props) {
     super(props);
@@ -30,7 +31,7 @@ export default class Detection extends React.Component {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
-          audio: false,
+          audio: true,
           video: {
             facingMode: "user",
             width: 800,
@@ -46,9 +47,20 @@ export default class Detection extends React.Component {
             };
           });
         });
+      
+      // Get audio stream 
+      const audioPromise = navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(stream => {
+        this.detectVoice(stream); // Start voice detection
+      })
+      .catch(error => {
+        console.error("Error accessing audio stream:", error);
+      });
+
       // load model and call the detectFrame function
       const modelPromise = cocoSsd.load();
-      Promise.all([modelPromise, webCamPromise])
+      Promise.all([modelPromise, webCamPromise, audioPromise])
         .then(values => {
           this.detectFrame(this.videoRef.current, values[0]);
         })
@@ -70,6 +82,7 @@ export default class Detection extends React.Component {
       if (this.canvasRef.current) {
         
         this.renderPredictions(predictions);
+        // this.setState({ totalFrames: this.state.totalFrames + 1 }); // Increment total frames
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
         });
@@ -135,16 +148,23 @@ export default class Detection extends React.Component {
 
       // loop over all predictions and check if mobile phone, book, laptop or multiple
       // people are there in the frame 
+
+      var isMobile = false;
+      var isProhibited = false;
+      var isMultipleFaces = false;
+
       for (let i = 0; i < predictions.length; i++) {
 
         if (predictions[i].class === "cell phone") {
-          this.props.MobilePhone();
+          // this.props.MobilePhone();
+          isMobile = true;
           swal("Cell Phone Detected", "Action has been Recorded", "error");
           
         }
 
         else if (predictions[i].class === "book" || predictions[i].class === "laptop") {
-          this.props.ProhibitedObject();
+          // this.props.ProhibitedObject();
+          isProhibited = true;
           swal("Prohibited Object Detected", "Action has been Recorded", "error");
           
         }
@@ -156,10 +176,40 @@ export default class Detection extends React.Component {
 
       }
       if(faces > 1){
-        this.props.MultipleFacesVisible();
+        // this.props.MultipleFacesVisible();
+        isMultipleFaces = true;
         swal(faces.toString()+" people detected", "Action has been recorded", "error");
       }
 
+      if(isMobile) this.props.MobilePhone();
+      if(isProhibited) this.props.ProhibitedObject();
+      if(isMultipleFaces) this.props.MultipleFacesVisible();
+
+  };
+
+  detectVoice = (stream) => {
+    console.log('Checking if voice is detected...')
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const microphone = audioContext.createMediaStreamSource(stream);
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    microphone.connect(analyser);
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+  
+    const detectVoiceLoop = () => {
+      analyser.getByteFrequencyData(dataArray);
+      const average = dataArray.reduce((acc, val) => acc + val, 0) / bufferLength;
+      console.log("Average: ", average);
+      const threshold = 20; // Adjust threshold as needed
+      if (average > threshold) {
+        this.props.AudioDetected(); // Call the prop function to handle voice detection
+        swal("Voice Detected", "Action has been Recorded", "error");
+      }
+      requestAnimationFrame(detectVoiceLoop);
+    };
+  
+    detectVoiceLoop();
   };
 
   render() {

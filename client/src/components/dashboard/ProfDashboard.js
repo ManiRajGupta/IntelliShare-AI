@@ -233,7 +233,7 @@ function ProfDashboard(props) {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   renderInput={(props) => <TextField {...props} />}
-                  label="Date and Time"
+                  label="Uncontrolled picker"
                   // value={date_time_start}
                   margin="dense"
                   variant="standard"

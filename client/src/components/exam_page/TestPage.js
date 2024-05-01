@@ -18,11 +18,12 @@ export default function TestPage(props){
   const [tab_change, setTabChange] = useState(0);
   const [key_press, setKeyPress] = useState(0);
   const [full_screen_exit, setFullScreenExit] = useState(0);
-  const [mobile_phone_found, setMobilePhoneFound] = useState(false);
-  const [prohibited_object_found, setProhibitedObjectFound] = useState(false);
-  const [face_not_visible, setFaceNotVisible] = useState(false);
-  const [multiple_faces_visible, setMultipleFacesVisible] = useState(false);
+  const [mobile_phone_found, setMobilePhoneFound] = useState(0);
+  const [prohibited_object_found, setProhibitedObjectFound] = useState(0);
+  const [face_not_visible, setFaceNotVisible] = useState(0);
+  const [multiple_faces_visible, setMultipleFacesVisible] = useState(0);
   const [checkedPrevLogs, setCheckedPrevLogs] = useState(false);
+  const [audio_detected, setAudioDetected] = useState(false);
   
   const history = useHistory();
 
@@ -32,16 +33,19 @@ export default function TestPage(props){
    * to change state of its parent (This component)
    */
   function update_mobile_phone_found(){
-    setMobilePhoneFound(true);
+    setMobilePhoneFound(mobile_phone_found + 1);
   }
   function update_prohibited_object_found(){
-    setProhibitedObjectFound(true);
+    setProhibitedObjectFound(prohibited_object_found + 1);
   }
   function update_face_not_visible(){
-    setFaceNotVisible(true);
+    setFaceNotVisible(face_not_visible + 1);
   }
   function update_multiple_faces_visible(){
-    setMultipleFacesVisible(true);
+    setMultipleFacesVisible(multiple_faces_visible + 1);
+  }
+  function update_audio_detected(){
+    setAudioDetected(true);
   }
   /**
    * This function sends the current exam logs to the backend 
@@ -58,6 +62,7 @@ export default function TestPage(props){
           face_not_visible: face_not_visible,
           prohibited_object_found: prohibited_object_found,
           multiple_faces_found: multiple_faces_visible,
+          audio_detected: audio_detected,
       })
       .then(function (response){
 
@@ -83,6 +88,7 @@ export default function TestPage(props){
           setMultipleFacesVisible(response.data.multiple_faces_found);
           setProhibitedObjectFound(response.data.prohibited_object_found);
           setFaceNotVisible(response.data.face_not_visible);
+          setAudioDetected(response.data.audio_detected);
       })
       .catch(function (err) {
           console.log(err);
@@ -112,7 +118,6 @@ export default function TestPage(props){
    * @returns false if key is Ctrl or Alt else true
    */
   function handleKeyPress(event){
-    
       if (event.altKey) {
           setKeyPress(key_press+1);
           swal('Alt Key Press Detected',"Action has been Recorded", "error");
@@ -197,7 +202,7 @@ export default function TestPage(props){
     
 
       <div className="detect">
-        <Detection MobilePhone={update_mobile_phone_found} ProhibitedObject={update_prohibited_object_found} FaceNotVisible={update_face_not_visible} MultipleFacesVisible={update_multiple_faces_visible}/>
+        <Detection MobilePhone={update_mobile_phone_found} ProhibitedObject={update_prohibited_object_found} FaceNotVisible={update_face_not_visible} MultipleFacesVisible={update_multiple_faces_visible} AudioDetected={update_audio_detected} />
         
       </div>
 
@@ -232,8 +237,6 @@ export default function TestPage(props){
         <div className="test">
       <iframe src={form_link} id='form'> Loading… </iframe>
       </div>
-
-    
 
   </div>
   )

@@ -63,6 +63,25 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+// Weights for each practice
+let weights = {
+  'tab_change_count': 2,
+  'key_press_count': 1,
+  'face_not_visible': 1,
+  'multiple_faces_found': 2,
+  'mobile_found': 2,
+  'prohibited_object_found': 0.5
+};
+// Maximum counts for each practice
+let maxCounts = {
+  'tab_change_count': 10,
+  'key_press_count': 10,
+  'face_not_visible': 10,
+  'multiple_faces_found': 10,
+  'mobile_found': 10,
+  'prohibited_object_found': 10
+};
+
 // Array of the header cells of the table
 // each element is an object containing that header cell's properties
 const headCells = [
@@ -71,10 +90,17 @@ const headCells = [
   { id: 'student_email', numeric: false, disablePadding: false, label: 'Email' },
   { id: 'tab_change_count', numeric: true, disablePadding: false, label: 'Tab Changes' },
   { id: 'key_press_count', numeric: true, disablePadding: false, label: 'Prohibited Key Press' },
-  { id: 'face_not_visible', numeric: false, disablePadding: false, label: 'Face Not Visible' },
-  { id: 'multiple_faces_found', numeric: false, disablePadding: false, label: 'Multiple Faces Detected' },
-  { id: 'mobile_found', numeric: false, disablePadding: false, label: 'Mobile Found' },
-  { id: 'prohibited_object_found', numeric: false, disablePadding: false, label: 'Prohibited Object Found' },
+  // { id: 'face_not_visible', numeric: false, disablePadding: false, label: 'Face Not Visible' },
+  // { id: 'multiple_faces_found', numeric: false, disablePadding: false, label: 'Multiple Faces Detected' },
+  // { id: 'mobile_found', numeric: false, disablePadding: false, label: 'Mobile Found' },
+  // { id: 'prohibited_object_found', numeric: false, disablePadding: false, label: 'Prohibited Object Found' },
+  // { id: 'audio_detected', numeric: false, disablePadding: false, label: 'Audio Detected' },
+  { id: 'face_not_visible', numeric: true, disablePadding: false, label: 'Face Not Visible' },
+  { id: 'multiple_faces_found', numeric: true, disablePadding: false, label: 'Multiple Faces Detected' },
+  { id: 'mobile_found', numeric: true, disablePadding: false, label: 'Mobile Found' },
+  { id: 'prohibited_object_found', numeric: true, disablePadding: false, label: 'Prohibited Object Found' },
+  { id: 'audio_detected', numeric: false, disablePadding: false, label: 'Audio Detected' },
+  { id: 'ufm_score', numeric: true, disablePadding: false, label: 'UFM Score' },
 ];
 
 /**
@@ -246,6 +272,7 @@ export default function LogsTable(props) {
         obj.multiple_faces_found = response.data[i].multiple_faces_found;
         obj.mobile_found = response.data[i].mobile_found;
         obj.prohibited_object_found = response.data[i].prohibited_object_found;
+        obj.audio_detected = response.data[i].audio_detected;
         curr_logs=[...curr_logs,obj]
         
       }
@@ -377,6 +404,34 @@ export default function LogsTable(props) {
                   const isItemSelected = isSelected(row.company);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
+                  let ufm_score = 100;
+                  let counts = {
+                    'tab_change_count': row.tab_change_count,
+                    'key_press_count': row.key_press_count,
+                    'face_not_visible': row.face_not_visible,
+                    'multiple_faces_found': row.multiple_faces_found,
+                    'mobile_found': row.mobile_found,
+                    'prohibited_object_found': row.prohibited_object_found,
+                };
+                // Calculate weighted sum
+                let weightedSum = Object.keys(counts).reduce((sum, practice) => sum + counts[practice] * weights[practice], 0);
+                // Calculate maximum possible weighted sum
+                // let maxWeightedSum = Object.keys(maxCounts).reduce((sum, practice) => sum + maxCounts[practice] * weights[practice], 0);
+                // // Calculate UFM Score in 100-base
+                // // let ufm_score = 50 + 50/weightedSum;
+                // let ufm_score = 100;
+                if(weightedSum==0) ufm_score = 100;
+                else if(weightedSum<=20) ufm_score = 90 + 10/weightedSum;
+                else if(weightedSum<=40) ufm_score = 80 + 20/weightedSum;
+                else if(weightedSum<=60) ufm_score = 70 + 30/weightedSum;
+                else if(weightedSum<=100) ufm_score = 60 + 40/weightedSum;
+                else if(weightedSum<=150) ufm_score = 50 + 50/weightedSum; 
+                else if(weightedSum<=200) ufm_score = 40 + 60/weightedSum;
+                else ufm_score = 30 + 70/weightedSum;
+
+                ufm_score = ufm_score.toFixed(2);
+                // // let ufm_score = (weightedSum / maxWeightedSum) * 100;
+
                   return (
                     <TableRow
                       hover
@@ -390,11 +445,18 @@ export default function LogsTable(props) {
                       <TableCell align="left">{row.student_email}</TableCell>
                       <TableCell align="right">{row.tab_change_count}</TableCell>
                       <TableCell align="right">{row.key_press_count}</TableCell>
-                      <TableCell align="left">{row.face_not_visible === true? "Yes" : "No"}</TableCell>
+                      {/* <TableCell align="left">{row.face_not_visible === true? "Yes" : "No"}</TableCell>
                       <TableCell align="left">{row.multiple_faces_found === true ? "Yes" : "No"}</TableCell>
                       <TableCell align="left">{row.mobile_found === true ?"Yes" : "No"}</TableCell>
                       <TableCell align="left">{row.prohibited_object_found === true ?"Yes" : "No"}</TableCell>
-                      
+                      <TableCell align="left">{row.audio_detected === true ? "Yes" : "No"}</TableCell> */}
+
+                      <TableCell align="right">{row.face_not_visible}</TableCell>
+                      <TableCell align="right">{row.multiple_faces_found}</TableCell>
+                      <TableCell align="right">{row.mobile_found}</TableCell>
+                      <TableCell align="right">{row.prohibited_object_found}</TableCell>
+                      <TableCell align="right">{row.audio_detected === true ? "Yes" : "No"}</TableCell>
+                      <TableCell align="right">{ufm_score}</TableCell>
                       
                     </TableRow>
                   );
